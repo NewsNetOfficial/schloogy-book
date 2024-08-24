@@ -60,38 +60,11 @@ function renderResults(results, input) {
   const inputColor = getComputedStyle(searchInput).color;
   const lowerInput = input.toLowerCase(); // Convert input to lowercase
 
-  // Get the current directory path
-  const pathParts = window.location.pathname.split('/').filter(part => part);
-  const currentDirectory = pathParts.length > 0 ? pathParts[pathParts.length - 1] : '';
-  const isInWoordenboek = pathParts.length > 1 && pathParts[pathParts.length - 2] === 'woordenboek';
-
-  // Determine the base URL and path prefix based on the current directory
-  let baseURL = '';
-  let pathPrefix = '';
-
-  if (currentDirectory === 'index.html' || currentDirectory === '') {
-    // We are in the home directory
-    baseURL = 'woordenboek/';
-    pathPrefix = '';
-  } else if (currentDirectory === 'woordenboek') {
-    // We are in the woordenboek directory
-    baseURL = '';
-    pathPrefix = '';
-  } else if (pathParts.length > 1 && pathParts[pathParts.length - 2] === 'woordenboek') {
-    // We are in a subdirectory of woordenboek
-    baseURL = '';
-    pathPrefix = '../';
-  } else {
-    // Default case (e.g., not in woordenboek and not in index.html)
-    baseURL = 'woordenboek/';
-    pathPrefix = '../';
-  }
-
   const content = results
     .map((item) => {
       const lowerItem = item.toLowerCase(); // Convert each item to lowercase
       const regex = new RegExp(`^(${lowerInput})`, 'i'); // Regex to find the input at the start of the item
-
+      
       // Highlight the input match in the lowercase item
       const highlightedItem = lowerItem.replace(regex, (match) => 
         `<span style="font-weight: bold; color: ${inputColor};">${match}</span>`
@@ -100,10 +73,10 @@ function renderResults(results, input) {
       // Capitalize the first letter of the item for display purposes
       const capitalizedItem = lowerItem.charAt(0).toUpperCase() + lowerItem.slice(1);
 
-      // Determine the URL path
-      const itemUrl = `${baseURL}${lowerItem}.html`;
+      // Convert `item` to lowercase for the URL
+      const lowerItemUrl = lowerItem;
 
-      return `<a href="${pathPrefix}${itemUrl}"><li>${capitalizedItem.replace(regex, (match) => 
+      return `<a href="../woordenboek/${lowerItemUrl}.html"><li>${capitalizedItem.replace(regex, (match) => 
         `<span style="font-weight: bold; color: ${inputColor};">${match}</span>`
       )}</li></a>`;
     })
@@ -113,9 +86,6 @@ function renderResults(results, input) {
   resultsList.innerHTML = content;
   currentIndex = -1; // Reset the index when results are rendered
 }
-
-
-
 
 
 
