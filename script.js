@@ -84,7 +84,7 @@ function renderResults(results, input) {
       // Determine the URL path
       const itemUrl = `${baseURL}${lowerItem}.html`;
 
-      return `<a href="../schloogy-book/woordenboek/${lowerItemUrl}.html"><li>${capitalizedItem.replace(regex, (match) => 
+      return `<a href="../woordenboek/${lowerItemUrl}.html"><li>${capitalizedItem.replace(regex, (match) => 
         `<span style="font-weight: bold; color: ${inputColor};">${match}</span>`
       )}</li></a>`;
     })
