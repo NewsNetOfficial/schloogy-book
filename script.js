@@ -59,14 +59,13 @@ function renderResults(results, input) {
 
   const inputColor = getComputedStyle(searchInput).color;
   const lowerInput = input.toLowerCase(); // Convert input to lowercase
-  
-  // Get the current directory
-  const currentDirectory = window.location.pathname.split('/').pop();
 
+  // Get the current directory
+  const pathParts = window.location.pathname.split('/').filter(part => part);
+  const currentDirectory = pathParts.length > 1 ? pathParts[pathParts.length - 2] : '';
+  
   // Determine the base URL based on the current directory
-  const baseURL = currentDirectory === 'woordenboek'
-    ? ''
-    : 'woordenboek/';
+  const baseURL = currentDirectory === 'woordenboek' ? '' : 'woordenboek/';
 
   const content = results
     .map((item) => {
@@ -84,7 +83,7 @@ function renderResults(results, input) {
       // Determine the URL path
       const itemUrl = `${baseURL}${lowerItem}.html`;
 
-      return `<a href="../woordenboek/${lowerItemUrl}.html"><li>${capitalizedItem.replace(regex, (match) => 
+      return `<a href="${itemUrl}"><li>${capitalizedItem.replace(regex, (match) => 
         `<span style="font-weight: bold; color: ${inputColor};">${match}</span>`
       )}</li></a>`;
     })
