@@ -59,20 +59,19 @@ function renderResults(results, input) {
 
   const inputColor = getComputedStyle(searchInput).color;
   const lowerInput = input.toLowerCase(); // Convert input to lowercase
-  
-  // Get the current directory
+
+  // Get the current directory path
   const pathParts = window.location.pathname.split('/').filter(part => part);
-  const currentDirectory = pathParts.length > 0 ? pathParts[pathParts.length - 1] : '';
+  const isInWoordenboek = pathParts.length > 1 && pathParts[pathParts.length - 2] === 'woordenboek';
 
-  // Determine the base URL based on the current directory
+  // Determine the base URL and path prefix
   let baseURL = 'woordenboek/';
-  let pathPrefix = '../'; // Default prefix if we are not in 'woordenboek'
+  let pathPrefix = '';
 
-  if (currentDirectory === 'woordenboek') {
-    baseURL = '';
-    pathPrefix = ''; // No prefix needed if already in 'woordenboek'
-  } else if (pathParts.length > 1 && pathParts[pathParts.length - 2] === 'woordenboek') {
-    baseURL = '';
+  if (isInWoordenboek) {
+    baseURL = ''; // No base URL needed if already in 'woordenboek'
+  } else {
+    // Determine if we need to go up to the root or stay in a subdirectory
     pathPrefix = '../'; // Go up one level to get to 'index.html'
   }
 
@@ -102,6 +101,7 @@ function renderResults(results, input) {
   resultsList.innerHTML = content;
   currentIndex = -1; // Reset the index when results are rendered
 }
+
 
 
 
