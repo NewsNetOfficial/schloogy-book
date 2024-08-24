@@ -63,7 +63,7 @@ function renderResults(results, input) {
   // Get the current directory
   const pathParts = window.location.pathname.split('/').filter(part => part);
   const currentDirectory = pathParts.length > 1 ? pathParts[pathParts.length - 2] : '';
-  
+
   // Determine the base URL based on the current directory
   const baseURL = currentDirectory === 'woordenboek' ? '' : 'woordenboek/';
 
@@ -93,10 +93,6 @@ function renderResults(results, input) {
   resultsList.innerHTML = content;
   currentIndex = -1; // Reset the index when results are rendered
 }
-
-
-
-
 
 // Navigate through results using arrow keys
 function navigateResults(direction) {
