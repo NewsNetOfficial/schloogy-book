@@ -68,7 +68,10 @@ function renderResults(results, input) {
         `<span style="font-weight: bold; color: ${inputColor};">${match}</span>`
       );
       
-      return `<a href="../woordenboek/${item}.html"><li>${highlightedItem}</li></a>`;
+      // Convert `item` to lowercase for the URL
+      const lowerItemUrl = lowerItem; // The URL should be in lowercase
+
+      return `<a href="../woordenboek/${lowerItemUrl}.html"><li>${highlightedItem}</li></a>`;
     })
     .join('');
 
@@ -76,6 +79,7 @@ function renderResults(results, input) {
   resultsList.innerHTML = content;
   currentIndex = -1; // Reset the index when results are rendered
 }
+
 
 // Navigate through results using arrow keys
 function navigateResults(direction) {
