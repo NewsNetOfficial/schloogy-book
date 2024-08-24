@@ -64,14 +64,21 @@ function renderResults(results, input) {
     .map((item) => {
       const lowerItem = item.toLowerCase(); // Convert each item to lowercase
       const regex = new RegExp(`^(${lowerInput})`, 'i'); // Regex to find the input at the start of the item
+      
+      // Highlight the input match in the lowercase item
       const highlightedItem = lowerItem.replace(regex, (match) => 
         `<span style="font-weight: bold; color: ${inputColor};">${match}</span>`
       );
-      
-      // Convert `item` to lowercase for the URL
-      const lowerItemUrl = lowerItem; // The URL should be in lowercase
 
-      return `<a href="../woordenboek/${lowerItemUrl}.html"><li>${highlightedItem}</li></a>`;
+      // Capitalize the first letter of the item for display purposes
+      const capitalizedItem = lowerItem.charAt(0).toUpperCase() + lowerItem.slice(1);
+
+      // Convert `item` to lowercase for the URL
+      const lowerItemUrl = lowerItem;
+
+      return `<a href="../woordenboek/${lowerItemUrl}.html"><li>${capitalizedItem.replace(regex, (match) => 
+        `<span style="font-weight: bold; color: ${inputColor};">${match}</span>`
+      )}</li></a>`;
     })
     .join('');
 
@@ -79,6 +86,8 @@ function renderResults(results, input) {
   resultsList.innerHTML = content;
   currentIndex = -1; // Reset the index when results are rendered
 }
+
+
 
 
 // Navigate through results using arrow keys
