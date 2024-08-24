@@ -58,11 +58,15 @@ function renderResults(results, input) {
   }
 
   const inputColor = getComputedStyle(searchInput).color;
+  const lowerInput = input.toLowerCase(); // Convert input to lowercase
 
   const content = results
     .map((item) => {
-      const regex = new RegExp(`^(${input})`, 'i'); // Regex to find the input at the start of the item
-      const highlightedItem = item.replace(regex, (match) => `<span style="font-weight: bold; color: ${inputColor};">${match}</span>`);
+      const lowerItem = item.toLowerCase(); // Convert each item to lowercase
+      const regex = new RegExp(`^(${lowerInput})`, 'i'); // Regex to find the input at the start of the item
+      const highlightedItem = lowerItem.replace(regex, (match) => 
+        `<span style="font-weight: bold; color: ${inputColor};">${match}</span>`
+      );
       
       return `<a href="../woordenboek/${item}.html"><li>${highlightedItem}</li></a>`;
     })
