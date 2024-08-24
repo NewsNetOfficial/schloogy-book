@@ -59,12 +59,20 @@ function renderResults(results, input) {
 
   const inputColor = getComputedStyle(searchInput).color;
   const lowerInput = input.toLowerCase(); // Convert input to lowercase
+  
+  // Get the current directory
+  const currentDirectory = window.location.pathname.split('/').pop();
+
+  // Determine the base URL based on the current directory
+  const baseURL = currentDirectory === 'woordenboek'
+    ? ''
+    : 'woordenboek/';
 
   const content = results
     .map((item) => {
       const lowerItem = item.toLowerCase(); // Convert each item to lowercase
       const regex = new RegExp(`^(${lowerInput})`, 'i'); // Regex to find the input at the start of the item
-      
+
       // Highlight the input match in the lowercase item
       const highlightedItem = lowerItem.replace(regex, (match) => 
         `<span style="font-weight: bold; color: ${inputColor};">${match}</span>`
@@ -73,10 +81,10 @@ function renderResults(results, input) {
       // Capitalize the first letter of the item for display purposes
       const capitalizedItem = lowerItem.charAt(0).toUpperCase() + lowerItem.slice(1);
 
-      // Convert `item` to lowercase for the URL
-      const lowerItemUrl = lowerItem;
+      // Determine the URL path
+      const itemUrl = `${baseURL}${lowerItem}.html`;
 
-      return `<a href="../schloogy-book/woordenboek/${lowerItemUrl}.html"><li>${capitalizedItem.replace(regex, (match) => 
+      return `<a href="../${itemUrl}"><li>${capitalizedItem.replace(regex, (match) => 
         `<span style="font-weight: bold; color: ${inputColor};">${match}</span>`
       )}</li></a>`;
     })
@@ -86,6 +94,7 @@ function renderResults(results, input) {
   resultsList.innerHTML = content;
   currentIndex = -1; // Reset the index when results are rendered
 }
+
 
 
 
