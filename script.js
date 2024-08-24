@@ -76,7 +76,7 @@ function renderResults(results, input) {
       // Convert `item` to lowercase for the URL
       const lowerItemUrl = lowerItem;
 
-      return `<a href="../woordenboek/${lowerItemUrl}.html"><li>${capitalizedItem.replace(regex, (match) => 
+      return `<a href="../schloogy-book/woordenboek/${lowerItemUrl}.html"><li>${capitalizedItem.replace(regex, (match) => 
         `<span style="font-weight: bold; color: ${inputColor};">${match}</span>`
       )}</li></a>`;
     })
