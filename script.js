@@ -1,20 +1,20 @@
-// Array of searchable terms
-let searchable = [
-  'Schloogy',
-  'Hoppy',
-  'Boem',
-  'Boemba',
-  'Boemy',
-  'Skib',
-  'Swipe',
-  'Sickness',
-  'Sancaronies',
-  'Drerrieguy',
-  'Knuist',
-  'Glitch',
-  'Blauw',
-  'Swipetrooper',
-];
+let searchable = []; // Initialize the searchable array
+
+// Fetch the words from the txt file
+fetch('../woordenlijst.txt')
+  .then(response => response.text())  // Read the response as text
+  .then(data => {
+    // Split the text data by newline characters to get an array of words
+    searchable = data.split('\n').map(word => word.trim()).filter(word => word.length > 0);
+
+    // Now generate the word list after the words are fetched
+    generateWordList();  // Ensure word list is generated after fetching words
+
+    console.log(searchable); // Just to confirm it works
+  })
+  .catch(error => {
+    console.error('Error fetching words:', error);
+  });
 
 // Get references to search elements
 const searchInput = document.getElementById('search');
@@ -171,7 +171,7 @@ function generateWordList() {
     // Create a section header
     const sectionHeader = document.createElement('li');
     sectionHeader.classList.add('section-header');
-    sectionHeader.textContent = `[${letter}]`;
+    sectionHeader.textContent = letter;
     list.appendChild(sectionHeader);
 
     // Sort words within this section alphabetically and create list items
@@ -211,44 +211,25 @@ function groupByFirstLetter(words) {
 // Wait until the DOM content is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
   // Call the function to generate the word list if on the correct page
-  generateWordList();
-
+  // The generateWordList function is now called after fetching the words
   const soundButton = document.querySelector('.soundbutton');
   const uitspraakSound = document.getElementById('uitspraak');
   const pageIdentifier = document.body.getAttribute('data-page'); // Get the page identifier
 
-  // Object mapping page identifiers to sound files
-  const soundMap = {
-    schloogy: '../woordenboek/uitspraak/schloogy.mp3',
-    hoppy: '../woordenboek/uitspraak/hoppy.mp3',
-    boem: '../woordenboek/uitspraak/boem.mp3',
-    boemba: '../woordenboek/uitspraak/boemba.mp3',
-    boemy: '../woordenboek/uitspraak/boemy.mp3',
-    skib: '../woordenboek/uitspraak/skib.mp3',
-    swipe: '../woordenboek/uitspraak/swipe.mp3',
-    sickness: '../woordenboek/uitspraak/sickness.mp3',
-    sancaronies: '../woordenboek/uitspraak/sancaronies.mp3',
-    drerrieguy: '../woordenboek/uitspraak/drerrieguy.mp3',
-    knuist: '../woordenboek/uitspraak/knuist.mp3',
-    glitch: '../woordenboek/uitspraak/glitch.mp3',
-    blauw: '../woordenboek/uitspraak/blauw.mp3',
-    swipetrooper: '../woordenboek/uitspraak/swipetrooper.mp3',
-    // Add any additional words and their corresponding sound files below
-  };
+  if (soundButton && uitspraakSound && pageIdentifier) {
+    // Construct the sound file path dynamically
+    const soundSrc = `../woordenboek/uitspraak/${pageIdentifier.toLowerCase()}.mp3`;
 
-  // Set the sound file based on the page identifier
-  if (soundButton && uitspraakSound) {
-    if (soundMap[pageIdentifier]) {
-      soundButton.setAttribute('data-sound', soundMap[pageIdentifier]);
+    // Set the sound file based on the page identifier
+    soundButton.setAttribute('data-sound', soundSrc);
 
-      // Preload the sound to avoid delay when playing
-      uitspraakSound.src = soundMap[pageIdentifier];
+    // Preload the sound to avoid delay when playing
+    uitspraakSound.src = soundSrc;
 
-      // Handle sound button click
-      soundButton.addEventListener('click', () => handleSoundButtonClick(soundButton, uitspraakSound));
-    } else {
-      console.error('Sound file not found for page:', pageIdentifier);
-    }
+    // Handle sound button click
+    soundButton.addEventListener('click', () => handleSoundButtonClick(soundButton, uitspraakSound));
+  } else {
+    console.error('Sound button or uitspraakSound element not found, or page identifier is missing.');
   }
 });
 
