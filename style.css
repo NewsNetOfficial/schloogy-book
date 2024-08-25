@@ -333,3 +333,30 @@ hr {
 #word-list-container ul li.section-header:not(:first-of-type) {
   margin-top: 80px !important; /* Space above each header except the first */
 }
+
+/* Style for the Sanceronies button */
+#sanceronies {
+  position: absolute; /* Absolute positioning */
+  top: 10px; /* Adjust to position from the top */
+  right: 20px; /* Adjust to position from the right */
+  text-decoration: none; /* Ensure there's no underline */
+  color: #333; /* Text color */
+  padding: 12px 20px; /* Padding around the text */
+  font-size: 18px; /* Font size */
+  font-weight: 700; /* Font weight */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transitions for background-color, font-weight, and font-size */
+  font-family: "Open Sans", sans-serif; /* Font family */
+  background: none; /* Remove default background */
+  border: none; /* Remove default border */
+  cursor: pointer; /* Pointer cursor on hover */
+  display: inline-block; /* Ensure it's aligned with other buttons */
+  text-align: center; /* Center text */
+}
+
+/* Hover effect for the Sanceronies button */
+#sanceronies:hover {
+  background-color: #e0e0e0; /* Background color on hover */
+  font-weight: 800; /* Font weight on hover */
+  font-size: 18px; /* Ensure the font-size is consistent on hover */
+}

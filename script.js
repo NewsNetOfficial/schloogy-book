@@ -124,24 +124,30 @@ function selectResult() {
 
 // Function to handle sound button click
 function handleSoundButtonClick(soundButton, uitspraakSound) {
-  const soundSrc = soundButton.getAttribute('data-sound');
+  let soundSrc;
+
+  // Check if the button's ID is 'sanceronies'
+  if (soundButton.id === 'sanceronies') {
+    soundSrc = '../overig/holysanceronies.mp3'; // Hardcoded path for this specific button
+  } else {
+    soundSrc = soundButton.getAttribute('data-sound'); // Dynamic path for other buttons
+  }
 
   // Check if a new sound is selected
   if (uitspraakSound.src !== soundSrc) {
     uitspraakSound.src = soundSrc;
   }
 
+  // Play or pause the sound
   if (uitspraakSound.paused) {
     uitspraakSound.play().catch((error) => {
       console.error("Error playing audio: ", error);
     });
     soundButton.classList.add('active');
-    soundButton.style.backgroundImage = "url('../icons/onsound.png')";
   } else {
     uitspraakSound.pause();
     uitspraakSound.currentTime = 0; // Reset sound to start
     soundButton.classList.remove('active');
-    soundButton.style.backgroundImage = "url('../icons/offsound.png')";
   }
 }
 
@@ -210,26 +216,15 @@ function groupByFirstLetter(words) {
 
 // Wait until the DOM content is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-  // Call the function to generate the word list if on the correct page
-  // The generateWordList function is now called after fetching the words
-  const soundButton = document.querySelector('.soundbutton');
+  const soundButton = document.getElementById('sanceronies'); // Get the sanceronies button
   const uitspraakSound = document.getElementById('uitspraak');
-  const pageIdentifier = document.body.getAttribute('data-page'); // Get the page identifier
 
-  if (soundButton && uitspraakSound && pageIdentifier) {
-    // Construct the sound file path dynamically
-    const soundSrc = `../woordenboek/uitspraak/${pageIdentifier.toLowerCase()}.mp3`;
-
-    // Set the sound file based on the page identifier
-    soundButton.setAttribute('data-sound', soundSrc);
-
-    // Preload the sound to avoid delay when playing
-    uitspraakSound.src = soundSrc;
+  // Set initial sound source based on the button's ID
+  if (soundButton) {
+    uitspraakSound.src = '../overig/holysanceronies.mp3'; // Hardcoded path for specific button
 
     // Handle sound button click
     soundButton.addEventListener('click', () => handleSoundButtonClick(soundButton, uitspraakSound));
-  } else {
-    console.error('Sound button or uitspraakSound element not found, or page identifier is missing.');
   }
 });
 
