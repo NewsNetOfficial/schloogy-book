@@ -145,8 +145,74 @@ function handleSoundButtonClick(soundButton, uitspraakSound) {
   }
 }
 
+// Generate and display the list of words
+function generateWordList() {
+  // Ensure we're on the woordenlijst.html page
+  if (!window.location.pathname.includes("woordenlijst.html")) {
+    return;
+  }
+
+  // Get the container where the list will be inserted
+  const wordListContainer = document.getElementById('word-list-container');
+
+  if (!wordListContainer) {
+    console.error('Container for the word list not found!');
+    return;
+  }
+
+  // Group words by the first letter
+  const groupedWords = groupByFirstLetter(searchable);
+
+  // Create the list of words
+  const list = document.createElement('ul');
+
+  // Add sections for each letter
+  Object.keys(groupedWords).sort().forEach(letter => {
+    // Create a section header
+    const sectionHeader = document.createElement('li');
+    sectionHeader.classList.add('section-header');
+    sectionHeader.textContent = `[${letter}]`;
+    list.appendChild(sectionHeader);
+
+    // Sort words within this section alphabetically and create list items
+    groupedWords[letter].sort().forEach(word => {
+      const listItem = document.createElement('li');
+      const link = document.createElement('a');
+      
+      // Construct the URL and set the link text
+      link.href = `../woordenboek/${word.toLowerCase()}.html`;
+      link.textContent = word;
+
+      // Append the link to the list item
+      listItem.appendChild(link);
+
+      // Append the list item to the list
+      list.appendChild(listItem);
+    });
+  });
+
+  // Clear any existing content in the container and add the list
+  wordListContainer.innerHTML = ''; 
+  wordListContainer.appendChild(list);
+}
+
+// Function to group words by the first letter
+function groupByFirstLetter(words) {
+  return words.reduce((acc, word) => {
+    const firstLetter = word[0].toUpperCase();
+    if (!acc[firstLetter]) {
+      acc[firstLetter] = [];
+    }
+    acc[firstLetter].push(word);
+    return acc;
+  }, {});
+}
+
 // Wait until the DOM content is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
+  // Call the function to generate the word list if on the correct page
+  generateWordList();
+
   const soundButton = document.querySelector('.soundbutton');
   const uitspraakSound = document.getElementById('uitspraak');
   const pageIdentifier = document.body.getAttribute('data-page'); // Get the page identifier

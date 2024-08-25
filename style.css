@@ -106,6 +106,7 @@ header {
   cursor: pointer;
 }
 
+/* Updated Results Styles */
 .results {
   display: none;
   position: absolute;
@@ -154,6 +155,7 @@ main {
   background: #ffffff;
   border-radius: 5px;
   box-shadow: 0px 1px 5px rgba(0,0,0,0.15);
+  margin-bottom: 1.5%;
 }
 
 .container {
@@ -280,4 +282,54 @@ hr {
 .autocomplete-active {
   background-color: #e0e0e0; /* Background color when an item is focused */
   color: #333; /* Text color of the focused item */
+}
+
+/* Styles for the word list */
+#word-list-container {
+  margin-top: 60px; /* Space from the top of the page */
+}
+
+#word-list-container ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* Styling for word list items */
+#word-list-container ul li:not(.section-header) {
+  padding: 10px 15px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  border-bottom: 1px solid #ddd;
+}
+
+
+#word-list-container ul li a {
+  color: #6d7b98;
+  text-decoration: none; /* Remove underline */
+  transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+#word-list-container ul li a:hover {
+  color: #333; /* Darker color on hover */
+  text-decoration: none; /* Ensure underline stays removed */
+}
+
+
+/* Add space above section headers */
+.section-header {
+  font-weight: bold;
+  font-size: 25px;
+  color: #333;
+  padding: 10px 15px;
+  background-color: #f0f0f0;
+  border-bottom: 2px solid #ddd;
+  border-top-left-radius: 2px; /* Rounds the top-left corner */
+  border-top-right-radius: 2px; /* Rounds the top-right corner */
+  display: block; /* Ensure headers behave like block elements */
+}
+
+#word-list-container ul li.section-header:not(:first-of-type) {
+  margin-top: 80px !important; /* Space above each header except the first */
 }
