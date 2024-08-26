@@ -124,21 +124,13 @@ function selectResult() {
 
 // Function to handle sound button click
 function handleSoundButtonClick(soundButton, uitspraakSound) {
-  let soundSrc;
-
-  // Check if the button's ID is 'sanceronies'
-  if (soundButton.id === 'sanceronies') {
-    soundSrc = '../overig/holysanceronies.mp3'; // Hardcoded path for this specific button
-  } else {
-    soundSrc = soundButton.getAttribute('data-sound'); // Dynamic path for other buttons
-  }
+  const soundSrc = soundButton.getAttribute('data-sound');
 
   // Check if a new sound is selected
   if (uitspraakSound.src !== soundSrc) {
     uitspraakSound.src = soundSrc;
   }
 
-  // Play or pause the sound
   if (uitspraakSound.paused) {
     uitspraakSound.play().catch((error) => {
       console.error("Error playing audio: ", error);
@@ -216,15 +208,29 @@ function groupByFirstLetter(words) {
 
 // Wait until the DOM content is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-  const soundButton = document.getElementById('sanceronies'); // Get the sanceronies button
+  const soundButton = document.querySelector('.soundbutton');
   const uitspraakSound = document.getElementById('uitspraak');
+  const sanceroniesButton = document.getElementById('sanceronies'); // Special button for sanceronies
 
-  // Set initial sound source based on the button's ID
-  if (soundButton) {
-    uitspraakSound.src = '../overig/holysanceronies.mp3'; // Hardcoded path for specific button
+  if (soundButton && uitspraakSound) {
+    // Set the default sound file based on the page identifier
+    const pageIdentifier = document.body.getAttribute('data-page'); // Get the page identifier
+    if (pageIdentifier) {
+      const soundSrc = `../woordenboek/uitspraak/${pageIdentifier.toLowerCase()}.mp3`;
+      soundButton.setAttribute('data-sound', soundSrc);
+      uitspraakSound.src = soundSrc; // Preload the default sound
+    }
 
-    // Handle sound button click
+    // Handle sound button click for normal buttons
     soundButton.addEventListener('click', () => handleSoundButtonClick(soundButton, uitspraakSound));
+  }
+
+  if (sanceroniesButton) {
+    const sanceroniesSoundSrc = '../overig/holysanceronies.mp3'; // Hardcoded path for sanceronies
+    sanceroniesButton.setAttribute('data-sound', sanceroniesSoundSrc);
+
+    // Handle sound button click for sanceronies
+    sanceroniesButton.addEventListener('click', () => handleSoundButtonClick(sanceroniesButton, uitspraakSound));
   }
 });
 
