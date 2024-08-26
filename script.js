@@ -122,8 +122,33 @@ function selectResult() {
   }
 }
 
-// Function to handle sound button click
-function handleSoundButtonClick(soundButton, uitspraakSound) {
+// Function to handle normal sound button click
+function handleNormalSoundButtonClick(soundButton, uitspraakSound) {
+  const soundSrc = soundButton.getAttribute('data-sound');
+
+  // Check if a new sound is selected
+  if (uitspraakSound.src !== soundSrc) {
+    uitspraakSound.src = soundSrc;
+  }
+
+  if (uitspraakSound.paused) {
+    uitspraakSound.play().catch((error) => {
+      console.error("Error playing audio: ", error);
+      soundButton.classList.remove('active');
+      soundButton.style.backgroundImage = "url('../icons/offsound.png')";
+    });
+    soundButton.classList.add('active');
+    soundButton.style.backgroundImage = "url('../icons/onsound.png')";
+  } else {
+    uitspraakSound.pause();
+    uitspraakSound.currentTime = 0; // Reset sound to start
+    soundButton.classList.remove('active');
+    soundButton.style.backgroundImage = "url('../icons/offsound.png')";
+  }
+}
+
+// Function to handle sanceronies button click
+function handleSanceroniesButtonClick(soundButton, uitspraakSound) {
   const soundSrc = soundButton.getAttribute('data-sound');
 
   // Check if a new sound is selected
@@ -141,6 +166,16 @@ function handleSoundButtonClick(soundButton, uitspraakSound) {
     uitspraakSound.currentTime = 0; // Reset sound to start
     soundButton.classList.remove('active');
   }
+}
+
+// Add event listener for when sound ends for normal sound button only
+function setupSoundEndedListener(uitspraakSound, soundButton) {
+  uitspraakSound.addEventListener('ended', () => {
+    if (soundButton) {
+      soundButton.classList.remove('active');
+      soundButton.style.backgroundImage = "url('../icons/offsound.png')";
+    }
+  });
 }
 
 // Generate and display the list of words
@@ -222,15 +257,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Handle sound button click for normal buttons
-    soundButton.addEventListener('click', () => handleSoundButtonClick(soundButton, uitspraakSound));
+    soundButton.addEventListener('click', () => handleNormalSoundButtonClick(soundButton, uitspraakSound));
+
+    // Set up event listener to change the button image when the sound ends (for normal button only)
+    setupSoundEndedListener(uitspraakSound, soundButton);
   }
 
   if (sanceroniesButton) {
     const sanceroniesSoundSrc = '../overig/holysanceronies.mp3'; // Hardcoded path for sanceronies
     sanceroniesButton.setAttribute('data-sound', sanceroniesSoundSrc);
-
-    // Handle sound button click for sanceronies
-    sanceroniesButton.addEventListener('click', () => handleSoundButtonClick(sanceroniesButton, uitspraakSound));
+    sanceroniesButton.addEventListener('click', () => handleSanceroniesButtonClick(sanceroniesButton, uitspraakSound));
   }
 });
 
