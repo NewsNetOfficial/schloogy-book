@@ -360,3 +360,17 @@ hr {
   font-weight: 800; /* Font weight on hover */
   font-size: 18px; /* Ensure the font-size is consistent on hover */
 }
+
+/* Style for the image container */
+.image-container {
+  display: flex;
+  justify-content: center; /* Center the image horizontally */
+  margin-top: 50px; /* Space above the image */
+}
+
+/* Style for the image */
+.image-container img {
+  max-width: 75%; /* Ensure the image does not overflow the container */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 5px; /* Optional: add border radius if needed */
+}
