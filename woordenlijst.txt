@@ -28,6 +28,4 @@ Space
 Scoot
 Bruut
 Bomba
-Boemba
-Hoppy
 Glitch
