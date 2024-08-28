@@ -30,3 +30,4 @@ Bruut
 Bomba
 Boemba
 Hoppy
+Glitch
