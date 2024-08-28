@@ -27,3 +27,6 @@ Kneiter
 Space
 Scoot
 Bruut
+Bomba
+Boemba
+Hoppy
